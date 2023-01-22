@@ -27,6 +27,7 @@
    
    
    
+   
    <div class="row">
    
    <div class="col-12">
@@ -48,7 +49,9 @@
   <div class="card-body">
     <h5 class="card-title"> <%= note.getTitle() %> </h5>
     <p class="card-text"> <%= note.getContent() %>  </p>
-    <a href="#" class="btn btn-danger">Delete</a>
+    <p class="card-text"><b>Last Updated : <%= note.getAddedDate()%></b></p>
+    <a href="edit_note.jsp?note_id=<%= note.getId() %>" class="btn btn-primary">Update</a>
+    <a href="DeleteNote?note_id=<%= note.getId() %>" class="btn btn-danger">Delete</a>
   </div>
 </div>
 

@@ -1,16 +1,16 @@
 package com.ShaswotDhungana.Note;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
-
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
 import com.ShaswotDhungana.FactoryProvider.FactoryProvider;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,56 +18,46 @@ import jakarta.servlet.http.HttpServletResponse;
 
 
 
-@SuppressWarnings("serial")
-@WebServlet("/SaveNote")
-public class SaveNotesServlet extends HttpServlet {
+@WebServlet("/UpdateNote")
+public class UpdateNoteServlet extends HttpServlet {
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		
+	
+	
 		try {
-		
 		String title = req.getParameter("title");
 		String content = req.getParameter("content");
-
-		Note note = new Note(title,content,new Date());
+		int noteId = Integer.parseInt(req.getParameter("noteId").trim());
 		
-	
-//		
-//		pw.print(note.getId());
+		Session s = FactoryProvider.getFactory().openSession();
+		Transaction tx = s.beginTransaction();
 		
-		// opening hibernate session 
-		Session session = FactoryProvider.getFactory().openSession();
+		Note note = s.get(Note.class, noteId);
+		
+		note.setTitle(title);
+		note.setAddedDate(new Date());
+		note.setContent(content);
 		
 		
 		
-		// opening transaction.
 		
-		Transaction tx = session.beginTransaction();
+		s.save(note);
 		
-	
-		// saving to db
-		session.save(note);
 		
-		// comitting transaction
 		tx.commit();
 		
-	
-		
-		// closing session.
-		session.close();
+		s.close();
 		
 		resp.sendRedirect("all_notes.jsp");
 		
 		
-	} catch(Exception e) {
-		e.printStackTrace();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	
 	
-	}		
 }

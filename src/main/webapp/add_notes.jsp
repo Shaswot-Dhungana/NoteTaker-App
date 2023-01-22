@@ -16,7 +16,7 @@
     <br>
         
   <!--   form -->
-  <form action="SaveNotes" method="post">
+  <form action="SaveNote" method="post">
   <div class="mb-3">
     <label for="NoteTitle" class="form-label">Note Title</label>
     <input type="text" name="title" class="form-control" id="title" aria-describedby="emailHelp" placeholder="Enter Title of Your Note." required>
